@@ -1,1 +1,1 @@
-# tompkins-covid
+# Tompkins County Daily COVID Numbers
