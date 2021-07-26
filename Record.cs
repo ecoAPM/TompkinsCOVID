@@ -1,7 +1,7 @@
 ﻿using System;
 using AngleSharp.Dom;
 
-namespace COVID
+namespace TompkinsCOVID
 {
     public record Record
     {

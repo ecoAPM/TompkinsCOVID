@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace COVID
+namespace TompkinsCOVID
 {
     public static class Program
     {
@@ -20,7 +20,7 @@ namespace COVID
             if (next != null)
             {
                 var content =  twitter.CreateTweetContent(next);
-                Console.WriteLine(content);
+                await twitter.Tweet(content);
             }
         }
     }

@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace COVID
+namespace TompkinsCOVID
 {
     public class Twitter
     {
@@ -13,7 +13,7 @@ namespace COVID
 
         public async Task<DateTime?> GetLatestPostedDate()
         {
-            return DateTime.Parse("7/22/21");
+            return await Task.FromResult(DateTime.Parse("7/22/21"));
         }
 
         public string CreateTweetContent(Record record)
@@ -34,5 +34,11 @@ namespace COVID
                 {record.PartiallyVaccinated:N0} partially vaccinated
                 {record.FullyVaccinated:N0} fully vaccinated
             ";
+
+        public async Task Tweet(string content)
+        {
+            await Task.Delay(TimeSpan.Zero);
+            Console.WriteLine(content);
+        }
     }
 }

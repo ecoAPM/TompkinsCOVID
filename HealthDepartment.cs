@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using AngleSharp;
 
-namespace COVID
+namespace TompkinsCOVID
 {
     public class HealthDepartment
     {
@@ -18,19 +18,19 @@ namespace COVID
         public async Task<IList<Record>> GetLatestRecords()
         {
             var html = await _http.GetAsync(url);
-            var content = await html.Content.ReadAsStringAsync();
+            var content = html.Content.ReadAsStreamAsync();
 
             var browser = BrowsingContext.New(Configuration.Default);
-            var dom = await browser.OpenAsync(r => r.Content(content));
+            var dom = await browser.OpenAsync(async r => r.Content(await content));
 
-            var records = new List<Record>();
             var rows = dom.DocumentElement.QuerySelectorAll("tbody tr");
+            var records = new List<Record>();
             foreach (var row in rows)
             {
                 var cells = row.QuerySelectorAll("td");
 
                 var day = cells[0].TextContent;
-                if (string.IsNullOrWhiteSpace(day) || !DateTime.TryParse(day, out var date))
+                if (string.IsNullOrWhiteSpace(day) || !DateTime.TryParse(day, out _))
                     continue;
 
                 records.Add(new Record(cells));
