@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Tweetinvi;
 
 namespace TompkinsCOVID
 {
@@ -9,9 +10,13 @@ namespace TompkinsCOVID
     {
         public static async Task Main()
         {
-            var http = new HttpClient();
-            var twitter = new Twitter(http);
-            var healthDept = new HealthDepartment(http);
+            var consumerKey = Environment.GetEnvironmentVariable("ConsumerKey");
+            var consumerSecret = Environment.GetEnvironmentVariable("ConsumerSecret");
+            var accessKey = Environment.GetEnvironmentVariable("AccessKey");
+            var accessSecret = Environment.GetEnvironmentVariable("AccessSecret");
+
+            var twitter = new Twitter(new TwitterClient(consumerKey, consumerSecret, accessKey, accessSecret));
+            var healthDept = new HealthDepartment(new HttpClient());
             
             Console.WriteLine();
             var latest = await twitter.GetLatestPostedDate();
@@ -21,11 +26,12 @@ namespace TompkinsCOVID
             var records = await healthDept.GetLatestRecords();
             Console.WriteLine($"{records.Count()} records found, through {records.LastOrDefault()?.Date.ToShortDateString()}");
 
-            var next = records.FirstOrDefault(r => latest == null || r.Date > latest);
-            if (next != null)
+            var toTweet = records.Where(r => latest == null || r.Date > latest);
+            foreach(var record in toTweet)
             {
-                Console.WriteLine($"\nTweeting:\n{next}\n");
-                await twitter.Tweet(next);
+                Console.WriteLine($"\nTweeting:\n{record}\n");
+                await twitter.Tweet(record);
+                await Task.Delay(TimeSpan.FromSeconds(5));
             }
 
             Console.WriteLine();
