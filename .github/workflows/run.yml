@@ -19,3 +19,10 @@ jobs:
         
     - name: Run
       run: dotnet run -c Release
+      env:
+        ConsumerKey: ${{secrets.ConsumerKey}}
+        ConsumerSecret: ${{secrets.ConsumerSecret}}
+        ConsumerToken: ${{secrets.ConsumerToken}}
+        AccessKey: ${{secrets.AccessKey}}
+        AccessSecret: ${{secrets.AccessSecret}}
+        

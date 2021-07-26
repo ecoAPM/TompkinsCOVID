@@ -13,15 +13,23 @@ namespace TompkinsCOVID
             var twitter = new Twitter(http);
             var healthDept = new HealthDepartment(http);
             
+            Console.WriteLine();
             var latest = await twitter.GetLatestPostedDate();
+            Console.WriteLine($"Last posted: {latest?.ToShortDateString() ?? "[never]"}");
+            
+            Console.WriteLine();
             var records = await healthDept.GetLatestRecords();
-            var next = records.FirstOrDefault(r => latest == null || r.Date > latest);
+            Console.WriteLine($"{records.Count()} records found, through {records.LastOrDefault()?.Date.ToShortDateString()}");
 
+            var next = records.FirstOrDefault(r => latest == null || r.Date > latest);
             if (next != null)
             {
-                var content =  twitter.CreateTweetContent(next);
-                await twitter.Tweet(content);
+                Console.WriteLine($"\nTweeting:\n{next}\n");
+                await twitter.Tweet(next);
             }
+
+            Console.WriteLine();
+            Console.WriteLine("Done!");
         }
     }
 }
