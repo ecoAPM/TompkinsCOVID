@@ -70,6 +70,8 @@ namespace TompkinsCOVID
                 + $"{TestedTotal?.ToString("N0") ?? "[unknown]"} tested total" + Environment.NewLine
                 + Environment.NewLine
                 + $"{PartiallyVaccinated?.ToString("N0") ?? "[unknown]"} partially vaccinated" + Environment.NewLine
-                + $"{FullyVaccinated?.ToString("N0") ?? "[unknown]"} fully vaccinated";
+                + $"{FullyVaccinated?.ToString("N0") ?? "[unknown]"} fully vaccinated" + Environment.NewLine
+                + Environment.NewLine
+                + $"#twithaca";
     }
 }
