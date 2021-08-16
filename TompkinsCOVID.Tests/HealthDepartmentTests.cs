@@ -18,7 +18,7 @@ namespace TompkinsCOVID.Tests
             var hd = new HealthDepartment(client);
             
             //act
-            var records = await hd.GetLatestRecords();
+            var records = await hd.GetLatestRecords("http://localhost");
             
             //assert
             Assert.Equal("07/01/2021", records.Single().Date.ToShortDateString());

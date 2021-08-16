@@ -19,6 +19,8 @@ namespace TompkinsCOVID
             _wait = TimeSpan.FromSeconds(wait);
         }
 
+        private const string url = "https://docs.google.com/spreadsheets/u/2/d/e/2PACX-1vQvvugFsb4GePXQnmEZbgrtqmJRiaA7tO1UGSBwvBdhbJEmf2ntzE0am-x-Lo6mLPj9ASLpAg6UZsCF/pubhtml?gid=1214476126&single=true";
+        
         public async Task Run()
         {
             _log("");
@@ -26,7 +28,7 @@ namespace TompkinsCOVID
             _log($"Last posted: {latest?.ToShortDateString() ?? "[never]"}");
 
             _log("");
-            var records = await _healthDept.GetLatestRecords();
+            var records = await _healthDept.GetLatestRecords(url);
             _log($"{records.Count} records found, through {records.LastOrDefault()?.Date.ToShortDateString()}");
 
             var toTweet = records.Where(r => latest == null || r.Date > latest).ToList();

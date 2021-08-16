@@ -17,7 +17,7 @@ namespace TompkinsCOVID.Tests
             var hd = Substitute.For<IHealthDepartment>();
             var yesterday = new Record(Stub.Row(new[] { "06/30/2021" }));
             var today = new Record(Stub.Row(new[] { "07/01/2021" }));
-            hd.GetLatestRecords().Returns(new[] { yesterday, today });
+            hd.GetLatestRecords(Arg.Any<string>()).Returns(new[] { yesterday, today });
 
             void Log(string s)
             {

@@ -15,9 +15,7 @@ namespace TompkinsCOVID
         public HealthDepartment(HttpClient http)
             => _http = http;
 
-        private const string url = "https://docs.google.com/spreadsheets/u/2/d/e/2PACX-1vQvvugFsb4GePXQnmEZbgrtqmJRiaA7tO1UGSBwvBdhbJEmf2ntzE0am-x-Lo6mLPj9ASLpAg6UZsCF/pubhtml?gid=1214476126&single=true";
-
-        public async Task<IList<Record>> GetLatestRecords()
+        public async Task<IList<Record>> GetLatestRecords(string url)
         {
             var html = await _http.GetAsync(url);
             var content = html.Content.ReadAsStreamAsync();
