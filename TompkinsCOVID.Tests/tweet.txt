@@ -1,0 +1,17 @@
+﻿7/1/2021
+
+1 new positive cases
+2 active cases
+3 total positive cases
+
+4 currently hospitalized
+5 deceased
+6 recovered
+
+7 tested today
+8 tested total
+
+9 partially vaccinated
+10 fully vaccinated
+
+#twithaca

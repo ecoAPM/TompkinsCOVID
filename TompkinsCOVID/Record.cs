@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using AngleSharp.Dom;
 
 namespace TompkinsCOVID
@@ -17,9 +18,10 @@ namespace TompkinsCOVID
         public readonly uint? PartiallyVaccinated;
         public readonly uint? FullyVaccinated;
 
-        public Record(IHtmlCollection<IElement> cells)
+        public Record(IList<IElement> cells)
         {
-            DateTime.TryParse(Cleanup(cells[0]), out Date);
+            if (!DateTime.TryParse(Cleanup(cells[0]), out Date))
+                throw new ArgumentException("Could not read date from cells", nameof(cells));
 
             if (uint.TryParse(Cleanup(cells[1]), out var testedTotal))
                 TestedTotal = testedTotal;
@@ -52,7 +54,7 @@ namespace TompkinsCOVID
                 FullyVaccinated = fullyVaccinated;
         }
 
-        private static ReadOnlySpan<char> Cleanup(IElement cell)
+        private static ReadOnlySpan<char> Cleanup(INode cell)
             => cell.TextContent.Replace(",", "");
 
         public override string ToString()

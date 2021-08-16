@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AngleSharp;
+using AngleSharp.Io;
 
 namespace TompkinsCOVID
 {
@@ -21,7 +23,9 @@ namespace TompkinsCOVID
             var content = html.Content.ReadAsStreamAsync();
 
             var browser = BrowsingContext.New(Configuration.Default);
-            var dom = await browser.OpenAsync(async r => r.Content(await content));
+
+            async void Request(VirtualResponse r) => r.Content(await content);
+            var dom = await browser.OpenAsync(Request);
 
             var rows = dom.DocumentElement.QuerySelectorAll("tbody tr");
             var records = new List<Record>();
@@ -33,7 +37,7 @@ namespace TompkinsCOVID
                 if (string.IsNullOrWhiteSpace(day) || !DateTime.TryParse(day, out _))
                     continue;
 
-                records.Add(new Record(cells));
+                records.Add(new Record(cells.ToList()));
             }
 
             return records;
