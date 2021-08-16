@@ -18,7 +18,7 @@ jobs:
         dotnet-version: 5.0.x
         
     - name: Run
-      run: dotnet run -c Release
+      run: dotnet run -p TompkinsCOVID -c Release
       env:
         ConsumerKey: ${{secrets.ConsumerKey}}
         ConsumerSecret: ${{secrets.ConsumerSecret}}
