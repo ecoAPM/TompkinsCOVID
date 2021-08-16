@@ -6,7 +6,7 @@ using AngleSharp;
 
 namespace TompkinsCOVID
 {
-    public class HealthDepartment
+    public class HealthDepartment : IHealthDepartment
     {
         private readonly HttpClient _http;
 
