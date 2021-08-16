@@ -15,8 +15,8 @@ namespace TompkinsCOVID.Tests
             twitter.GetLatestPostedDate().Returns(DateTime.Parse("6/30/2021"));
 
             var hd = Substitute.For<IHealthDepartment>();
-            var yesterday = new Record(Stub.Row(new[] { "6/30/2021" }));
-            var today = new Record(Stub.Row(new[] { "7/1/2021" }));
+            var yesterday = new Record(Stub.Row(new[] { "06/30/2021" }));
+            var today = new Record(Stub.Row(new[] { "07/01/2021" }));
             hd.GetLatestRecords().Returns(new[] { yesterday, today });
 
             void Log(string s)

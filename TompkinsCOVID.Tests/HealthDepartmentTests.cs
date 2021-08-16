@@ -21,12 +21,12 @@ namespace TompkinsCOVID.Tests
             var records = await hd.GetLatestRecords();
             
             //assert
-            Assert.Equal("7/1/2021", records.Single().Date.ToShortDateString());
+            Assert.Equal("07/01/2021", records.Single().Date.ToShortDateString());
         }
     
         private class MockHttp : HttpMessageHandler
         {
-            protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+            protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
             {
                 const string html = @"<html>
                                         <body>
@@ -34,16 +34,17 @@ namespace TompkinsCOVID.Tests
                                                 <tbody>
                                                     <tr><td>Header</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
                                                     <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                                                    <tr><td>7/1/2021</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                                                    <tr><td>07/01/2021</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
                                                 </tbody>
                                             </table>
                                         </body>
                                     </html>";
 
-                return new HttpResponseMessage(HttpStatusCode.OK)
+                var message = new HttpResponseMessage(HttpStatusCode.OK)
                 {
                     Content = new StringContent(html)
                 };
+                return Task.FromResult(message);
             }
         }
     }

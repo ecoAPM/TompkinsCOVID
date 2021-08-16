@@ -16,7 +16,7 @@ namespace TompkinsCOVID.Tests
         {
             //arrange
             var tweet = Substitute.For<ITweet>();
-            tweet.Text.Returns("7/1/2021\ntest data");
+            tweet.Text.Returns("07/01/2021\ntest data");
             var client = Substitute.For<ITwitterClient>();
             client.Timelines.GetUserTimelineAsync(Arg.Any<IGetUserTimelineParameters>()).Returns(new[] { tweet });
             var twitter = new Twitter(client);
@@ -25,7 +25,7 @@ namespace TompkinsCOVID.Tests
             var date = await twitter.GetLatestPostedDate();
 
             //assert
-            Assert.Equal("7/1/2021", date?.ToShortDateString());
+            Assert.Equal("07/01/2021", date?.ToShortDateString());
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace TompkinsCOVID.Tests
             var twitter = new Twitter(client);
             var cells = Substitute.For<IList<IElement>>();
             var data = Substitute.For<IElement>();
-            data.TextContent.Returns("7/1/2021");
+            data.TextContent.Returns("07/01/2021");
             cells[0].Returns(data);
             var record = new Record(cells);
 
