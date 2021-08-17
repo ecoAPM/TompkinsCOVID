@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using NSubstitute;
 using Xunit;
 
@@ -19,11 +21,18 @@ namespace TompkinsCOVID.Tests
             var today = new Record(Stub.Row(new[] { "07/01/2021" }));
             hd.GetLatestRecords(Arg.Any<string>()).Returns(new[] { yesterday, today });
 
+            var settings = new Dictionary<string, string>
+            {
+                { "url", "http://localhost" },
+                { "wait", "0" }
+            };
+            var config = new ConfigurationBuilder().AddInMemoryCollection(settings).Build();
+
             void Log(string s)
             {
             }
 
-            var runner = new Runner(twitter, hd, Log, 0);
+            var runner = new Runner(twitter, hd, Log, config);
 
             //act
             await runner.Run();

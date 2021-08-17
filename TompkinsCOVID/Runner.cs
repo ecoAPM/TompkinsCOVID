@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace TompkinsCOVID
 {
@@ -9,18 +10,18 @@ namespace TompkinsCOVID
         private readonly ITwitter _twitter;
         private readonly IHealthDepartment _healthDept;
         private readonly Action<string> _log;
+        private readonly string _url;
         private readonly TimeSpan _wait;
 
-        public Runner(ITwitter twitter, IHealthDepartment healthDept, Action<string> log, int wait = 5)
+        public Runner(ITwitter twitter, IHealthDepartment healthDept, Action<string> log, IConfigurationRoot config)
         {
             _twitter = twitter;
             _healthDept = healthDept;
             _log = log;
-            _wait = TimeSpan.FromSeconds(wait);
+            _url = config["url"];
+            _wait = TimeSpan.FromSeconds(double.Parse(config["wait"]));
         }
 
-        private const string url = "https://docs.google.com/spreadsheets/u/2/d/e/2PACX-1vQvvugFsb4GePXQnmEZbgrtqmJRiaA7tO1UGSBwvBdhbJEmf2ntzE0am-x-Lo6mLPj9ASLpAg6UZsCF/pubhtml?gid=1214476126&single=true";
-        
         public async Task Run()
         {
             _log("");
@@ -28,7 +29,7 @@ namespace TompkinsCOVID
             _log($"Last posted: {latest?.ToShortDateString() ?? "[never]"}");
 
             _log("");
-            var records = await _healthDept.GetLatestRecords(url);
+            var records = await _healthDept.GetLatestRecords(_url);
             _log($"{records.Count} records found, through {records.LastOrDefault()?.Date.ToShortDateString()}");
 
             var toTweet = records.Where(r => latest == null || r.Date > latest).ToList();

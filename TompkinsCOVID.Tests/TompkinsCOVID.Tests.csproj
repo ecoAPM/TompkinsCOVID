@@ -18,8 +18,6 @@
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
       <ProjectReference Include="..\TompkinsCOVID\TompkinsCOVID.csproj" />
-      <None Update="tweet.txt">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+      <None Include="tweet.txt" CopyToOutputDirectory="PreserveNewest"/>
     </ItemGroup>
 </Project>
