@@ -11,3 +11,20 @@
 A community service project to automatically tweet daily COVID positive cases and vaccination statistics in Tompkins County, NY.
 
 Follow [@TompkinsNYCOVID on Twitter](https://twitter.com/TompkinsNYCOVID) for updates.
+
+## Requirements
+
+- .NET SDK v5.0
+- Twitter API keys set to the following environment variable names:
+  - `ConsumerKey`
+  - `ConsumerSecret`
+  - `AccessKey`
+  - `AccessSecret`
+
+## Build from source
+
+```
+dotnet restore
+dotnet build
+dotnet test
+```
