@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AngleSharp" Version="0.16.0" />
+    <PackageReference Include="AngleSharp" Version="0.16.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="TweetinviAPI" Version="5.0.4" />
     <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
