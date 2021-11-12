@@ -11,12 +11,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.x
-        
+        dotnet-version: 6.0.x
+
     - name: Run
       run: dotnet run -p TompkinsCOVID -c Release
       env:
@@ -25,4 +25,4 @@ jobs:
         ConsumerToken: ${{secrets.ConsumerToken}}
         AccessKey: ${{secrets.AccessKey}}
         AccessSecret: ${{secrets.AccessSecret}}
-        
+
