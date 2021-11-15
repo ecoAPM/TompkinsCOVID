@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace TompkinsCOVID
+namespace TompkinsCOVID;
+
+public interface IHealthDepartment
 {
-    public interface IHealthDepartment
-    {
-        Task<IList<Record>> GetLatestRecords(string url);
-    }
+	Task<IList<Record>> GetLatestRecords(string url);
 }

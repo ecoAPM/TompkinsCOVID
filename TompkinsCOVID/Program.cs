@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 
-namespace TompkinsCOVID
+namespace TompkinsCOVID;
+
+public static class Program
 {
-    public static class Program
-    {
-        public static async Task Main()
-            => await Factory.Runner().Run();
-    }
+	public static async Task Main()
+		=> await Factory.Runner().Run();
 }

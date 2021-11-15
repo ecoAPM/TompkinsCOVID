@@ -1,11 +1,10 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 
-namespace TompkinsCOVID
+namespace TompkinsCOVID;
+
+public interface ITwitter
 {
-    public interface ITwitter
-    {
-        Task<DateTime?> GetLatestPostedDate();
-        Task Tweet(Record record);
-    }
+	Task<DateTime?> GetLatestPostedDate();
+	Task Tweet(Record record);
 }

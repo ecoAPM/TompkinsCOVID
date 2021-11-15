@@ -1,17 +1,16 @@
-﻿using Xunit;
+using Xunit;
 
-namespace TompkinsCOVID.Tests
+namespace TompkinsCOVID.Tests;
+
+public class FactoryTests
 {
-    public class FactoryTests
-    {
-        [Fact]
-        public void CanCreateRunner()
-        {
-            //arrange/act
-            var runner = Factory.Runner();
-            
-            //assert
-            Assert.IsType<Runner>(runner);
-        }
-    }
+	[Fact]
+	public void CanCreateRunner()
+	{
+		//arrange/act
+		var runner = Factory.Runner();
+
+		//assert
+		Assert.IsType<Runner>(runner);
+	}
 }
