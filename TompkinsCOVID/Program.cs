@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace TompkinsCOVID;
 
 public static class Program

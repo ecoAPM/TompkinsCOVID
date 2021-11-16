@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using AngleSharp.Dom;
 using NSubstitute;
 
@@ -6,7 +5,7 @@ namespace TompkinsCOVID.Tests;
 
 public static class Stub
 {
-	public static IList<IElement> Row(IList<string> content)
+	public static IList<IElement> Row(IList<string?> content)
 	{
 		var list = new IElement[13];
 		for (var x = 0; x < content.Count; x++)
@@ -22,7 +21,7 @@ public static class Stub
 		return list;
 	}
 
-	public static IElement Cell(string content)
+	private static IElement Cell(string? content)
 	{
 		var element = Substitute.For<IElement>();
 		element.TextContent.Returns(content);
