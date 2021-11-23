@@ -10,9 +10,9 @@ public class Twitter : ITwitter
 	public Twitter(ITwitterClient client)
 		=> _client = client;
 
-	public async Task<DateTime?> GetLatestPostedDate()
+	public async Task<DateTime?> GetLatestPostedDate(string username)
 	{
-		var options = new GetUserTimelineParameters("TompkinsNYCOVID")
+		var options = new GetUserTimelineParameters(username)
 		{
 			PageSize = 5
 		};

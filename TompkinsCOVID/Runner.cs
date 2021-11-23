@@ -8,21 +8,23 @@ public class Runner
 	private readonly IHealthDepartment _healthDept;
 	private readonly Action<string> _log;
 	private readonly string _url;
+	private readonly string _username;
 	private readonly TimeSpan _wait;
 
-	public Runner(ITwitter twitter, IHealthDepartment healthDept, Action<string> log, IConfigurationRoot config)
+	public Runner(ITwitter twitter, IHealthDepartment healthDept, Action<string> log, IConfiguration config)
 	{
 		_twitter = twitter;
 		_healthDept = healthDept;
 		_log = log;
 		_url = config["url"];
+		_username = config["username"];
 		_wait = TimeSpan.FromSeconds(double.Parse(config["wait"]));
 	}
 
 	public async Task Run()
 	{
 		_log("");
-		var latest = await _twitter.GetLatestPostedDate();
+		var latest = await _twitter.GetLatestPostedDate(_username);
 		_log($"Last posted: {latest?.ToShortDateString() ?? "[never]"}");
 
 		_log("");

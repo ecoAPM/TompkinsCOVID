@@ -20,7 +20,8 @@ public class TwitterTests
 		var twitter = new Twitter(client);
 
 		//act
-		var date = await twitter.GetLatestPostedDate();
+		const string username = "test";
+		var date = await twitter.GetLatestPostedDate(username);
 
 		//assert
 		Assert.Equal("07/01/2021", date?.ToShortDateString());

@@ -11,7 +11,7 @@ public class RunnerTests
 	{
 		//arrange
 		var twitter = Substitute.For<ITwitter>();
-		twitter.GetLatestPostedDate().Returns(DateTime.Parse("6/30/2021"));
+		twitter.GetLatestPostedDate(Arg.Any<string>()).Returns(DateTime.Parse("6/30/2021"));
 
 		var hd = Substitute.For<IHealthDepartment>();
 		var yesterday = new Record(Stub.Row(new[] { "06/30/2021" }));
@@ -19,17 +19,14 @@ public class RunnerTests
 		hd.GetLatestRecords(Arg.Any<string>()).Returns(new[] { yesterday, today });
 
 		var settings = new Dictionary<string, string>
-			{
-				{ "url", "http://localhost" },
-				{ "wait", "0" }
-			};
+		{
+			{ "url", "http://localhost" },
+			{ "username", "test" },
+			{ "wait", "0" }
+		};
 		var config = new ConfigurationBuilder().AddInMemoryCollection(settings).Build();
 
-		void Log(string s)
-		{
-		}
-
-		var runner = new Runner(twitter, hd, Log, config);
+		var runner = new Runner(twitter, hd, _ => { }, config);
 
 		//act
 		await runner.Run();
