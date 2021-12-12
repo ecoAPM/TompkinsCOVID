@@ -14,8 +14,8 @@ public class RunnerTests
 		twitter.GetLatestPostedDate(Arg.Any<string>()).Returns(DateTime.Parse("6/30/2021"));
 
 		var hd = Substitute.For<IHealthDepartment>();
-		var yesterday = new Record(Stub.Row(new[] { "06/30/2021" }));
-		var today = new Record(Stub.Row(new[] { "07/01/2021" }));
+		var yesterday = new Record(Stub.Row(new[] { "06/30/2021", "", "", "1", "", "", "2"  }));
+		var today = new Record(Stub.Row(new[] { "07/01/2021", "", "", "1", "", "", "2" }));
 		hd.GetLatestRecords(Arg.Any<string>()).Returns(new[] { yesterday, today });
 
 		var settings = new Dictionary<string, string>
@@ -33,5 +33,33 @@ public class RunnerTests
 
 		//assert
 		await twitter.Received(1).Tweet(Arg.Any<Record>());
+	}
+
+	[Fact]
+	public async Task DoesNotTweetIncomplete()
+	{
+		//arrange
+		var twitter = Substitute.For<ITwitter>();
+		twitter.GetLatestPostedDate(Arg.Any<string>()).Returns(DateTime.Parse("6/30/2021"));
+
+		var hd = Substitute.For<IHealthDepartment>();
+		var today = new Record(Stub.Row(new[] { "07/01/2021" }));
+		hd.GetLatestRecords(Arg.Any<string>()).Returns(new[] { today });
+
+		var settings = new Dictionary<string, string>
+		{
+			{ "url", "http://localhost" },
+			{ "username", "test" },
+			{ "wait", "0" }
+		};
+		var config = new ConfigurationBuilder().AddInMemoryCollection(settings).Build();
+
+		var runner = new Runner(twitter, hd, _ => { }, config);
+
+		//act
+		await runner.Run();
+
+		//assert
+		await twitter.DidNotReceive().Tweet(Arg.Any<Record>());
 	}
 }

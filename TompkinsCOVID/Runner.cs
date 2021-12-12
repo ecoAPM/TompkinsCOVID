@@ -31,7 +31,7 @@ public class Runner
 		var records = await _healthDept.GetLatestRecords(_url);
 		_log($"{records.Count} records found, through {records.LastOrDefault()?.Date.ToShortDateString()}");
 
-		var toTweet = records.Where(r => latest == null || r.Date > latest).ToList();
+		var toTweet = records.Where(r => latest == null || ShouldTweet(r, latest.Value)).ToList();
 		foreach (var record in toTweet)
 		{
 			_log($"\nTweeting:\n{record}\n");
@@ -42,4 +42,9 @@ public class Runner
 		_log("");
 		_log("Done!");
 	}
+
+	private static bool ShouldTweet(Record r, DateTime latest)
+		=> r.Date > latest
+			&& r.PositiveToday != null
+			&& r.ActiveCases != null;
 }
