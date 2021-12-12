@@ -7,12 +7,12 @@ public record Record
 	public readonly DateTime Date;
 	public readonly uint? TestedTotal;
 	public readonly ushort? TestedToday;
-	public readonly byte? PositiveToday;
+	public readonly ushort? PositiveToday;
 	public readonly ushort? PositiveTotal;
 	public readonly ushort? Recovered;
 	public readonly ushort? ActiveCases;
-	public readonly byte? Hospitalized;
-	public readonly byte? Deceased;
+	public readonly ushort? Hospitalized;
+	public readonly ushort? Deceased;
 	public readonly uint? PartiallyVaccinated;
 	public readonly uint? FullyVaccinated;
 
@@ -27,7 +27,7 @@ public record Record
 		if (ushort.TryParse(Cleanup(cells[2]), out var testedToday))
 			TestedToday = testedToday;
 
-		if (byte.TryParse(Cleanup(cells[3]), out var positiveToday))
+		if (ushort.TryParse(Cleanup(cells[3]), out var positiveToday))
 			PositiveToday = positiveToday;
 
 		if (ushort.TryParse(Cleanup(cells[4]), out var positiveTotal))
@@ -39,10 +39,10 @@ public record Record
 		if (ushort.TryParse(Cleanup(cells[6]), out var activeCases))
 			ActiveCases = activeCases;
 
-		if (byte.TryParse(Cleanup(cells[7]), out var hospitalized))
+		if (ushort.TryParse(Cleanup(cells[7]), out var hospitalized))
 			Hospitalized = hospitalized;
 
-		if (byte.TryParse(Cleanup(cells[8]), out var deceased))
+		if (ushort.TryParse(Cleanup(cells[8]), out var deceased))
 			Deceased = deceased;
 
 		if (uint.TryParse(Cleanup(!string.IsNullOrWhiteSpace(cells[11].TextContent) ? cells[11] : cells[9]), out var partiallyVaccinated))
