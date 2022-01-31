@@ -14,10 +14,10 @@ public class HealthDepartmentTests
 		var hd = new HealthDepartment(client);
 
 		//act
-		var records = await hd.GetLatestRecords("http://localhost");
+		var records = await hd.GetRecords("http://localhost");
 
 		//assert
-		Assert.Equal("07/01/2021", records.Single().Date.ToShortDateString());
+		Assert.Equal("07/01/2021", records.Single().Key.ToShortDateString());
 	}
 
 	private class MockHttp : HttpMessageHandler

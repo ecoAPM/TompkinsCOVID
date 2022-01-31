@@ -8,11 +8,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AngleSharp" Version="0.16.1"/>
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0"/>
-		<PackageReference Include="TweetinviAPI" Version="5.0.4"/>
-		<RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true"/>
-		<None Include="appsettings.json" CopyToOutputDirectory="PreserveNewest"/>
+		<PackageReference Include="AngleSharp" Version="0.16.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+		<PackageReference Include="TweetinviAPI" Version="5.0.4" />
+		<RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
+		<None Include="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
 
 </Project>

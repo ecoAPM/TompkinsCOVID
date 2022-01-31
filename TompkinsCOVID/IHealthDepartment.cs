@@ -2,5 +2,5 @@ namespace TompkinsCOVID;
 
 public interface IHealthDepartment
 {
-	Task<IList<Record>> GetLatestRecords(string url);
+	Task<IDictionary<DateTime, Record>> GetRecords(string url);
 }

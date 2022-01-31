@@ -16,7 +16,11 @@ public class RunnerTests
 		var hd = Substitute.For<IHealthDepartment>();
 		var yesterday = new Record(Stub.Row(new[] { "06/30/2021", "", "", "1", "", "", "2"  }));
 		var today = new Record(Stub.Row(new[] { "07/01/2021", "", "", "256", "", "", "1024" }));
-		hd.GetLatestRecords(Arg.Any<string>()).Returns(new[] { yesterday, today });
+		hd.GetRecords(Arg.Any<string>()).Returns(new Dictionary<DateTime, Record>
+		{
+			{ DateTime.Parse("06/30/2021"), yesterday },
+			{ DateTime.Parse("07/01/2021"), today }
+		});
 
 		var settings = new Dictionary<string, string>
 		{
@@ -44,7 +48,10 @@ public class RunnerTests
 
 		var hd = Substitute.For<IHealthDepartment>();
 		var today = new Record(Stub.Row(new[] { "07/01/2021" }));
-		hd.GetLatestRecords(Arg.Any<string>()).Returns(new[] { today });
+		hd.GetRecords(Arg.Any<string>()).Returns(new Dictionary<DateTime, Record>
+		{
+			{ DateTime.Parse("07/01/2021"), today }
+		});
 
 		var settings = new Dictionary<string, string>
 		{

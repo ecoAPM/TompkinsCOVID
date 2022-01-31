@@ -1,17 +1,17 @@
-﻿07/01/2021
+﻿01/30/2022
+342 active cases
 
-1 new positive cases
-2 active cases
-3 total positive cases
+43 new positive PCR tests
+10 new positive home tests
+1,933 new PCR test results
 
-4 currently hospitalized
-5 deceased
-6 recovered
+16,697 total positive PCR tests
+1,497 total positive home tests
 
-7 tested today
-8 tested total
+18 currently hospitalized
+53 deceased
 
-9 partially vaccinated
-10 fully vaccinated
+83,059 partially vaccinated
+75,596 fully vaccinated
 
 #twithaca

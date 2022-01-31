@@ -21,21 +21,25 @@ public class Runner
 		_wait = TimeSpan.FromSeconds(double.Parse(config["wait"]));
 	}
 
-	public async Task Run()
+	public async Task Run(string? arg = null)
 	{
 		_log("");
-		var latest = await _twitter.GetLatestPostedDate(_username);
+		var latest = DateTime.TryParse(arg, out var argDate)
+			? argDate
+			: await _twitter.GetLatestPostedDate(_username);
 		_log($"Last posted: {latest?.ToShortDateString() ?? "[never]"}");
 
 		_log("");
-		var records = await _healthDept.GetLatestRecords(_url);
-		_log($"{records.Count} records found, through {records.LastOrDefault()?.Date.ToShortDateString()}");
+		var records = await _healthDept.GetRecords(_url);
+		_log($"{records.Count} records found, through {records.LastOrDefault().Key.ToShortDateString()}");
 
-		var toTweet = records.Where(r => latest == null || ShouldTweet(r, latest.Value)).ToList();
+		var toTweet = records.Where(r => latest == null || ShouldTweet(r.Value, latest.Value)).ToList();
 		foreach (var record in toTweet)
 		{
-			_log($"\nTweeting:\n{record}\n");
-			await _twitter.Tweet(record);
+			record.Value.ActiveCases ??= records.CalculateActiveCases(record.Key);
+
+			_log($"\nTweeting:\n{record.Value}\n");
+			await _twitter.Tweet(record.Value);
 			await Task.Delay(_wait);
 		}
 
@@ -44,7 +48,5 @@ public class Runner
 	}
 
 	private static bool ShouldTweet(Record r, DateTime latest)
-		=> r.Date > latest
-			&& r.PositiveToday != null
-			&& r.ActiveCases != null;
+		=> r.Date > latest && r.PositiveToday != null;
 }
