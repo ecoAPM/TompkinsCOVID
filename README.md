@@ -14,7 +14,7 @@ Follow [@TompkinsNYCOVID on Twitter](https://twitter.com/TompkinsNYCOVID) for up
 
 ## Requirements
 
-- .NET SDK 6
+- .NET SDK 7
 - Twitter API keys set to the following environment variable names:
   - `ConsumerKey`
   - `ConsumerSecret`

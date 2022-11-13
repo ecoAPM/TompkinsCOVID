@@ -16,9 +16,9 @@ public class Runner
 		_twitter = twitter;
 		_healthDept = healthDept;
 		_log = log;
-		_url = config["url"];
-		_username = config["username"];
-		_wait = TimeSpan.FromSeconds(double.Parse(config["wait"]));
+		_url = config["url"] ?? string.Empty;
+		_username = config["username"] ?? string.Empty;
+		_wait = TimeSpan.FromSeconds(double.Parse(config["wait"] ?? string.Empty));
 	}
 
 	public async Task Run(string? arg = null)

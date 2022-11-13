@@ -22,7 +22,7 @@ public class RunnerTests
 			{ DateTime.Parse("07/01/2021"), today }
 		});
 
-		var settings = new Dictionary<string, string>
+		var settings = new Dictionary<string, string?>
 		{
 			{ "url", "http://localhost" },
 			{ "username", "test" },
@@ -53,7 +53,7 @@ public class RunnerTests
 			{ DateTime.Parse("07/01/2021"), today }
 		});
 
-		var settings = new Dictionary<string, string>
+		var settings = new Dictionary<string, string?>
 		{
 			{ "url", "http://localhost" },
 			{ "username", "test" },

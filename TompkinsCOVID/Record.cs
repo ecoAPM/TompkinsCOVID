@@ -5,7 +5,7 @@ namespace TompkinsCOVID;
 public record Record
 {
 	public readonly DateTime Date;
-	public ushort? ActiveCases;
+	public ushort? ActiveCases { get; set; }
 
 	public readonly ushort? PositiveToday;
 	public readonly ushort? SelfPositiveToday;
