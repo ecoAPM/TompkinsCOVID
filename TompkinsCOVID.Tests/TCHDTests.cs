@@ -3,21 +3,36 @@ using Xunit;
 
 namespace TompkinsCOVID.Tests;
 
-public class HealthDepartmentTests
+public class TCHDTests
 {
 	[Fact]
-	public async Task CanReadFromSpreadsheet()
+	public async Task CanGetAllRecords()
 	{
 		//arrange
 		var handler = new MockHttp();
 		var client = new HttpClient(handler);
-		var hd = new HealthDepartment(client);
+		var hd = new TCHD(client, "http://localhost");
 
 		//act
-		var records = await hd.GetRecords("http://localhost");
+		var records = await hd.GetRecords();
 
 		//assert
-		Assert.Equal("07/01/2021", records.Single().Key.ToShortDateString());
+		Assert.Equal("07/01/2021", records.First().Key.ToShortDateString());
+	}
+
+	[Fact]
+	public async Task CanGetRecordsSinceLatest()
+	{
+		//arrange
+		var handler = new MockHttp();
+		var client = new HttpClient(handler);
+		var hd = new TCHD(client, "http://localhost");
+
+		//act
+		var records = await hd.GetRecordsSince(DateTime.Parse("07/01/2021"));
+
+		//assert
+		Assert.Equal("07/02/2021", records.Single().Key.ToShortDateString());
 	}
 
 	private class MockHttp : HttpMessageHandler
@@ -31,6 +46,7 @@ public class HealthDepartmentTests
                                                     <tr><td>Header</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
                                                     <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
                                                     <tr><td>07/01/2021</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                                                    <tr><td>07/02/2021</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
                                                 </tbody>
                                             </table>
                                         </body>

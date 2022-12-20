@@ -3,16 +3,20 @@ using AngleSharp.Io;
 
 namespace TompkinsCOVID;
 
-public class HealthDepartment : IHealthDepartment
+public class TCHD : IHealthDepartment
 {
 	private readonly HttpClient _http;
+	private readonly string _url;
 
-	public HealthDepartment(HttpClient http)
-		=> _http = http;
-
-	public async Task<IDictionary<DateTime, Record>> GetRecords(string url)
+	public TCHD(HttpClient http, string url)
 	{
-		var html = await _http.GetAsync(url);
+		_http = http;
+		_url = url;
+	}
+
+	public async Task<IDictionary<DateTime, Record>> GetRecords()
+	{
+		var html = await _http.GetAsync(_url);
 		var content = html.Content.ReadAsStreamAsync();
 
 		var browser = BrowsingContext.New(Configuration.Default);
@@ -34,5 +38,13 @@ public class HealthDepartment : IHealthDepartment
 		}
 
 		return records;
+	}
+
+	public async Task<IDictionary<DateTime, Record>> GetRecordsSince(DateTime latest)
+	{
+		var records = await GetRecords();
+
+		return records.Where(r => r.Key > latest)
+			.ToDictionary(r => r.Key, r => r.Value);
 	}
 }

@@ -14,10 +14,10 @@ public static class Factory
 		var client = new TwitterClient(consumerKey, consumerSecret, accessKey, accessSecret);
 		var twitter = new Twitter(client);
 
-		var http = new HttpClient();
-		var healthDept = new HealthDepartment(http);
-
 		var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+		var http = new HttpClient();
+		var url = config["url"] ?? string.Empty;
+		var healthDept = new TCHD(http, url);
 
 		return new Runner(twitter, healthDept, Console.WriteLine, config);
 	}

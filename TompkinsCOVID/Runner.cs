@@ -7,7 +7,6 @@ public class Runner
 	private readonly ITwitter _twitter;
 	private readonly IHealthDepartment _healthDept;
 	private readonly Action<string> _log;
-	private readonly string _url;
 	private readonly string _username;
 	private readonly TimeSpan _wait;
 
@@ -16,7 +15,6 @@ public class Runner
 		_twitter = twitter;
 		_healthDept = healthDept;
 		_log = log;
-		_url = config["url"] ?? string.Empty;
 		_username = config["username"] ?? string.Empty;
 		_wait = TimeSpan.FromSeconds(double.Parse(config["wait"] ?? string.Empty));
 	}
@@ -30,7 +28,7 @@ public class Runner
 		_log($"Last posted: {latest?.ToShortDateString() ?? "[never]"}");
 
 		_log("");
-		var records = await _healthDept.GetRecords(_url);
+		var records = await _healthDept.GetRecords();
 		_log($"{records.Count} records found, through {records.LastOrDefault().Key.ToShortDateString()}");
 
 		var toTweet = records.Where(r => latest == null || ShouldTweet(r.Value, latest.Value)).ToList();
