@@ -7,7 +7,7 @@ using Xunit;
 
 namespace TompkinsCOVID.Tests;
 
-public class TwitterTests
+public sealed class TwitterTests
 {
 	[Fact]
 	public async Task CanGetMostRecentTweetDate()

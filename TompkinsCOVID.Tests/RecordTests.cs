@@ -2,7 +2,7 @@ using Xunit;
 
 namespace TompkinsCOVID.Tests;
 
-public class RecordTests
+public sealed class RecordTests
 {
 	[Fact]
 	public async Task CanOutputAsTweet()

@@ -3,7 +3,7 @@ using AngleSharp.Io;
 
 namespace TompkinsCOVID;
 
-public class TCHD : IHealthDepartment
+public sealed class TCHD : IHealthDepartment
 {
 	private readonly HttpClient _http;
 	private readonly string _url;

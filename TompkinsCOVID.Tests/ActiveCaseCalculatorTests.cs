@@ -2,7 +2,7 @@
 
 namespace TompkinsCOVID.Tests;
 
-public class ActiveCaseCalculatorTests
+public sealed class ActiveCaseCalculatorTests
 {
 	[Fact]
 	public void CanCalculateActiveCases()

@@ -2,7 +2,7 @@ using Xunit;
 
 namespace TompkinsCOVID.Tests;
 
-public class FactoryTests
+public sealed class FactoryTests
 {
 	[Fact]
 	public void CanCreateRunner()

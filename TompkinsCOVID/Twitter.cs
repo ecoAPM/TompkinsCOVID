@@ -3,7 +3,7 @@ using Tweetinvi.Parameters;
 
 namespace TompkinsCOVID;
 
-public class Twitter : ITwitter
+public sealed class Twitter : ITwitter
 {
 	private readonly ITwitterClient _client;
 

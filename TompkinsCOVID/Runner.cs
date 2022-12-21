@@ -2,7 +2,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace TompkinsCOVID;
 
-public class Runner
+public sealed class Runner
 {
 	private readonly ITwitter _twitter;
 	private readonly IHealthDepartment _healthDept;

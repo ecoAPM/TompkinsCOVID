@@ -4,7 +4,7 @@ using Xunit;
 
 namespace TompkinsCOVID.Tests;
 
-public class RunnerTests
+public sealed class RunnerTests
 {
 	[Fact]
 	public async Task TweetsNewRecords()

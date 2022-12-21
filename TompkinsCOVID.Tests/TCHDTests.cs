@@ -3,7 +3,7 @@ using Xunit;
 
 namespace TompkinsCOVID.Tests;
 
-public class TCHDTests
+public sealed class TCHDTests
 {
 	[Fact]
 	public async Task CanGetAllRecords()
