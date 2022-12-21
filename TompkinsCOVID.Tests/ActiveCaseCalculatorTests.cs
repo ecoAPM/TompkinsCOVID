@@ -8,21 +8,21 @@ public sealed class ActiveCaseCalculatorTests
 	public void CanCalculateActiveCases()
 	{
 		//arrange
-		var records = new Dictionary<DateTime, Record>
+		var records = new Dictionary<DateOnly, Record>
 		{
-			{ DateTime.Parse("06/30/2021"), new Record(Stub.Row(new[] { "06/30/2021", "", "", "999", "", "", "", "", "", "", "", "999", "" })) },
-			{ DateTime.Parse("07/01/2021"), new Record(Stub.Row(new[] { "07/01/2021", "", "", "1", "", "", "", "", "", "", "", "2", "" })) },
-			{ DateTime.Parse("07/02/2021"), new Record(Stub.Row(new[] { "07/02/2021", "", "", "3", "", "", "", "", "", "", "", "4", "" })) },
-			{ DateTime.Parse("07/03/2021"), new Record(Stub.Row(new[] { "07/03/2021", "", "", "5", "", "", "", "", "", "", "", "6", "" })) },
-			{ DateTime.Parse("07/04/2021"), new Record(Stub.Row(new[] { "07/04/2021", "", "", "7", "", "", "", "", "", "", "", "8", "" })) },
-			{ DateTime.Parse("07/05/2021"), new Record(Stub.Row(new[] { "07/05/2021", "", "", "9", "", "", "", "", "", "", "", "10", "" })) },
-			{ DateTime.Parse("07/06/2021"), new Record(Stub.Row(new[] { "07/06/2021", "", "", "11", "", "", "", "", "", "", "", "12", "" })) },
-			{ DateTime.Parse("07/07/2021"), new Record(Stub.Row(new[] { "07/07/2021", "", "", "13", "", "", "", "", "", "", "", "14", "" })) },
-			{ DateTime.Parse("07/08/2021"), new Record(Stub.Row(new[] { "07/08/2021", "", "", "999", "", "", "", "", "", "", "", "999", "" })) }
+			{ DateOnly.Parse("06/30/2021"), new Record(Stub.Row(new[] { "06/30/2021", "", "", "999", "", "", "", "", "", "", "", "999", "" })) },
+			{ DateOnly.Parse("07/01/2021"), new Record(Stub.Row(new[] { "07/01/2021", "", "", "1", "", "", "", "", "", "", "", "2", "" })) },
+			{ DateOnly.Parse("07/02/2021"), new Record(Stub.Row(new[] { "07/02/2021", "", "", "3", "", "", "", "", "", "", "", "4", "" })) },
+			{ DateOnly.Parse("07/03/2021"), new Record(Stub.Row(new[] { "07/03/2021", "", "", "5", "", "", "", "", "", "", "", "6", "" })) },
+			{ DateOnly.Parse("07/04/2021"), new Record(Stub.Row(new[] { "07/04/2021", "", "", "7", "", "", "", "", "", "", "", "8", "" })) },
+			{ DateOnly.Parse("07/05/2021"), new Record(Stub.Row(new[] { "07/05/2021", "", "", "9", "", "", "", "", "", "", "", "10", "" })) },
+			{ DateOnly.Parse("07/06/2021"), new Record(Stub.Row(new[] { "07/06/2021", "", "", "11", "", "", "", "", "", "", "", "12", "" })) },
+			{ DateOnly.Parse("07/07/2021"), new Record(Stub.Row(new[] { "07/07/2021", "", "", "13", "", "", "", "", "", "", "", "14", "" })) },
+			{ DateOnly.Parse("07/08/2021"), new Record(Stub.Row(new[] { "07/08/2021", "", "", "999", "", "", "", "", "", "", "", "999", "" })) }
 		};
 
 		//act
-		var active = records.CalculateActiveCases(DateTime.Parse("07/07/2021"));
+		var active = records.CalculateActiveCases(DateOnly.Parse("07/07/2021"));
 
 		//assert
 		Assert.Equal(105, active);

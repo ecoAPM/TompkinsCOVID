@@ -22,7 +22,7 @@ public sealed class Runner
 	public async Task Run(string? arg = null)
 	{
 		_log("");
-		var latest = DateTime.TryParse(arg, out var argDate)
+		var latest = DateOnly.TryParse(arg, out var argDate)
 			? argDate
 			: await _twitter.GetLatestPostedDate(_username);
 		_log($"Last posted: {latest?.ToShortDateString() ?? "[never]"}");
@@ -45,6 +45,6 @@ public sealed class Runner
 		_log("Done!");
 	}
 
-	private static bool ShouldTweet(Record r, DateTime latest)
+	private static bool ShouldTweet(Record r, DateOnly latest)
 		=> r.Date > latest && r.PositiveToday != null;
 }

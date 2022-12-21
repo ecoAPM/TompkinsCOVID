@@ -10,17 +10,17 @@ public sealed class Twitter : ITwitter
 	public Twitter(ITwitterClient client)
 		=> _client = client;
 
-	public async Task<DateTime?> GetLatestPostedDate(string username)
+	public async Task<DateOnly?> GetLatestPostedDate(string username)
 	{
 		var options = new GetUserTimelineParameters(username)
 		{
 			PageSize = 5
 		};
 		var tweets = await _client.Timelines.GetUserTimelineAsync(options);
-		var dates = new List<DateTime>();
+		var dates = new List<DateOnly>();
 		foreach (var tweet in tweets)
 		{
-			if (DateTime.TryParse(tweet.Text.Split("\n")[0], out var date))
+			if (DateOnly.TryParse(tweet.Text.Split("\n")[0], out var date))
 				dates.Add(date);
 		}
 

@@ -4,7 +4,7 @@ namespace TompkinsCOVID;
 
 public record Record
 {
-	public readonly DateTime Date;
+	public readonly DateOnly Date;
 	public ushort? ActiveCases { get; set; }
 
 	public readonly ushort? PositiveToday;
@@ -22,7 +22,7 @@ public record Record
 
 	public Record(IList<IElement> cells)
 	{
-		if (!DateTime.TryParse(cells[0].TextContent, out Date))
+		if (!DateOnly.TryParse(cells[0].TextContent, out Date))
 			throw new ArgumentException("Could not read date from cells", nameof(cells));
 
 		if (ushort.TryParse(Cleanup(cells[2]), out var testedToday))

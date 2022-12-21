@@ -29,7 +29,7 @@ public sealed class TCHDTests
 		var hd = new TCHD(client, "http://localhost");
 
 		//act
-		var records = await hd.GetRecordsSince(DateTime.Parse("07/01/2021"));
+		var records = await hd.GetRecordsSince(DateOnly.Parse("07/01/2021"));
 
 		//assert
 		Assert.Equal("07/02/2021", records.Single().Key.ToShortDateString());

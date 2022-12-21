@@ -14,7 +14,7 @@ public sealed class TCHD : IHealthDepartment
 		_url = url;
 	}
 
-	public async Task<IDictionary<DateTime, Record>> GetRecords()
+	public async Task<IDictionary<DateOnly, Record>> GetRecords()
 	{
 		var html = await _http.GetAsync(_url);
 		var content = html.Content.ReadAsStreamAsync();
@@ -25,13 +25,13 @@ public sealed class TCHD : IHealthDepartment
 		var dom = await browser.OpenAsync(Request);
 
 		var rows = dom.DocumentElement.QuerySelectorAll("tbody tr");
-		var records = new Dictionary<DateTime, Record>();
+		var records = new Dictionary<DateOnly, Record>();
 		foreach (var row in rows)
 		{
 			var cells = row.QuerySelectorAll("td");
 
 			var day = cells[0].TextContent;
-			if (string.IsNullOrWhiteSpace(day) || !DateTime.TryParse(day, out var rowDate))
+			if (string.IsNullOrWhiteSpace(day) || !DateOnly.TryParse(day, out var rowDate))
 				continue;
 
 			records.Add(rowDate, new Record(cells.ToList()));
@@ -40,7 +40,7 @@ public sealed class TCHD : IHealthDepartment
 		return records;
 	}
 
-	public async Task<IDictionary<DateTime, Record>> GetRecordsSince(DateTime latest)
+	public async Task<IDictionary<DateOnly, Record>> GetRecordsSince(DateOnly latest)
 	{
 		var records = await GetRecords();
 
