@@ -17,6 +17,7 @@ public sealed class TCHDTests
 		var records = await hd.GetRecords();
 
 		//assert
+		Assert.Equal(2, records.Count);
 		Assert.Equal("07/01/2021", records.First().Key.ToShortDateString());
 	}
 

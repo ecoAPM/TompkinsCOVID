@@ -1,17 +1,17 @@
-﻿01/30/2022
-342 active cases
+12/26/2022
+123 active cases
+12 new positive tests
 
-43 new positive PCR tests
-10 new positive home tests
-1,933 new PCR test results
+1,234 new test results
+12,345 total positive tests
 
-16,697 total positive PCR tests
-1,497 total positive home tests
+23 currently hospitalized
+34 deceased
 
-18 currently hospitalized
-53 deceased
+12.3% bivalent boosted
+23.4% vaxxed + boosted
 
-83,059 partially vaccinated
-75,596 fully vaccinated
+34.5% fully vaccinated
+45.6% partially vaccinated
 
 #twithaca

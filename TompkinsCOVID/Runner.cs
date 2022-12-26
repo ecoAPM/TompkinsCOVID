@@ -26,12 +26,23 @@ public sealed class Runner
 			? argDate
 			: await _twitter.GetLatestPostedDate(_username);
 		_log($"Last posted: {latest?.ToShortDateString() ?? "[never]"}");
+		var recordDate = latest?.AddDays(-ActiveCaseCalculator.ActiveDays * 2)
+			?? DateOnly.FromDateTime(DateTime.UnixEpoch);
 
 		_log("");
-		var records = await _healthDept.GetRecords();
-		_log($"{records.Count} records found, through {records.LastOrDefault().Key.ToShortDateString()}");
+		var records = await _healthDept.GetRecordsSince(recordDate);
+		_log($"{records.Count} records found, for {records.LastOrDefault().Key.ToShortDateString()} through {records.FirstOrDefault().Key.ToShortDateString()}");
 
-		var toTweet = records.Where(r => latest == null || ShouldTweet(r.Value, latest.Value)).ToList();
+		var toTweet = records
+			.Where(r => ShouldTweet(r.Value, latest))
+			.OrderBy(r => r.Key)
+			.ToArray();
+
+		if (!toTweet.Any())
+		{
+			_log("Nothing to tweet!");
+		}
+
 		foreach (var record in toTweet)
 		{
 			record.Value.ActiveCases ??= records.CalculateActiveCases(record.Key);
@@ -45,6 +56,6 @@ public sealed class Runner
 		_log("Done!");
 	}
 
-	private static bool ShouldTweet(Record r, DateOnly latest)
-		=> r.Date > latest && r.PositiveToday != null;
+	private static bool ShouldTweet(Record r, DateOnly? latest)
+		=> r.Date > latest && r.PositiveToday is not null;
 }

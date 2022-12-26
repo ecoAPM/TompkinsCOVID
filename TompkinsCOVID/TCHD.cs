@@ -87,14 +87,6 @@ public sealed class TCHD : IHealthDepartment
 
 			FullyVaccinated = uint.TryParse(Cleanup(tchdCells[10]), out var fullyVaccinated)
 				? fullyVaccinated
-				: null,
-
-			SelfPositiveToday = ushort.TryParse(Cleanup(tchdCells[11]), out var selfPositiveToday)
-				? selfPositiveToday
-				: null,
-
-			SelfPositiveTotal = ushort.TryParse(Cleanup(tchdCells[12]), out var selfPositiveTotal)
-				? selfPositiveTotal
 				: null
 		};
 	}

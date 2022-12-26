@@ -10,23 +10,24 @@ public sealed class RecordTests
 		//arrange
 		var record = new Record
 		{
-			Date = DateOnly.Parse("1/30/22"),
-			ActiveCases = 342,
-			PositiveToday = 43,
-			TestedToday = 1933,
-			PositiveTotal = 16697,
-			Hospitalized = 18,
-			Deceased = 53,
-			PartiallyVaccinated = 83059,
-			FullyVaccinated = 75596,
-			SelfPositiveToday = 10,
-			SelfPositiveTotal = 1497
+			Date = DateOnly.Parse("12/26/2022"),
+			ActiveCases = 123,
+			PositiveToday = 12,
+			TestedToday = 1234,
+			PositiveTotal = 12345,
+			Hospitalized = 23,
+			Deceased = 34,
+			BivalentBoosted = 12.3m,
+			VaxxedAndBoosted = 23.4m,
+			FullyVaccinated = 34.5m,
+			PartiallyVaccinated = 45.6m
 		};
 
 		//act
 		var tweet = record.ToString();
 
 		//assert
+		Assert.True(tweet.Length < 280);
 		var expected = await File.ReadAllTextAsync("tweet.txt");
 		Assert.Equal(expected, tweet);
 	}

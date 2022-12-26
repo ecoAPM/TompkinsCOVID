@@ -16,8 +16,7 @@ public static class Factory
 
 		var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 		var http = new HttpClient();
-		var url = config["url"] ?? string.Empty;
-		var healthDept = new TCHD(http, url);
+		var healthDept = new NYSDOH_CDC(http, config.GetSection("api"));
 
 		return new Runner(twitter, healthDept, Console.WriteLine, config);
 	}
