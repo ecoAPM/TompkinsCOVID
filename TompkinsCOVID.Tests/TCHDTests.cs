@@ -35,6 +35,19 @@ public sealed class TCHDTests
 		Assert.Equal("07/02/2021", records.Single().Key.ToShortDateString());
 	}
 
+	[Fact]
+	public void NoDateInSpreadsheetDataThrows()
+	{
+		//arrange
+		var data = Array.Empty<string>();
+
+		//act
+		var cells = Stub.Row(data);
+
+		//assert
+		Assert.ThrowsAny<Exception>(() => TCHD.FromSpreadsheet(cells));
+	}
+
 	private class MockHttp : HttpMessageHandler
 	{
 		protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)

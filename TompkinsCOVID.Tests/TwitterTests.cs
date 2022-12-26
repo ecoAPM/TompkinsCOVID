@@ -1,4 +1,3 @@
-using AngleSharp.Dom;
 using NSubstitute;
 using Tweetinvi;
 using Tweetinvi.Models;
@@ -33,11 +32,7 @@ public sealed class TwitterTests
 		//arrange
 		var client = Substitute.For<ITwitterClient>();
 		var twitter = new Twitter(client);
-		var cells = Substitute.For<IList<IElement>>();
-		var data = Substitute.For<IElement>();
-		data.TextContent.Returns("07/01/2021");
-		cells[0].Returns(data);
-		var record = TCHD.FromSpreadsheet(cells);
+		var record = new Record { Date = DateOnly.Parse("07/01/2021") };
 
 		//act
 		await twitter.Tweet(record);

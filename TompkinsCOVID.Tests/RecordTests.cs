@@ -8,9 +8,20 @@ public sealed class RecordTests
 	public async Task CanOutputAsTweet()
 	{
 		//arrange
-		var data = new[] { "1/30/22", "1,777,942", "1,933", "43", "16,697", "16,302", "342", "18", "53", "83059", "75596", "10", "1497" };
-		var cells = Stub.Row(data);
-		var record = TCHD.FromSpreadsheet(cells);
+		var record = new Record
+		{
+			Date = DateOnly.Parse("1/30/22"),
+			ActiveCases = 342,
+			PositiveToday = 43,
+			TestedToday = 1933,
+			PositiveTotal = 16697,
+			Hospitalized = 18,
+			Deceased = 53,
+			PartiallyVaccinated = 83059,
+			FullyVaccinated = 75596,
+			SelfPositiveToday = 10,
+			SelfPositiveTotal = 1497
+		};
 
 		//act
 		var tweet = record.ToString();
@@ -18,18 +29,5 @@ public sealed class RecordTests
 		//assert
 		var expected = await File.ReadAllTextAsync("tweet.txt");
 		Assert.Equal(expected, tweet);
-	}
-
-	[Fact]
-	public void NoDateThrows()
-	{
-		//arrange
-		var data = Array.Empty<string>();
-
-		//act
-		var cells = Stub.Row(data);
-
-		//assert
-		Assert.ThrowsAny<Exception>(() => TCHD.FromSpreadsheet(cells));
 	}
 }
