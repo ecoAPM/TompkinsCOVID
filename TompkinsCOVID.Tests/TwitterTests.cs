@@ -37,7 +37,7 @@ public sealed class TwitterTests
 		var data = Substitute.For<IElement>();
 		data.TextContent.Returns("07/01/2021");
 		cells[0].Returns(data);
-		var record = new Record(cells);
+		var record = TCHD.FromSpreadsheet(cells);
 
 		//act
 		await twitter.Tweet(record);

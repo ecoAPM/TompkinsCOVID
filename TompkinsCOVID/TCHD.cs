@@ -1,4 +1,5 @@
 using AngleSharp;
+using AngleSharp.Dom;
 using AngleSharp.Io;
 
 namespace TompkinsCOVID;
@@ -34,17 +35,70 @@ public sealed class TCHD : IHealthDepartment
 			if (string.IsNullOrWhiteSpace(day) || !DateOnly.TryParse(day, out var rowDate))
 				continue;
 
-			records.Add(rowDate, new Record(cells.ToList()));
+			records.Add(rowDate, FromSpreadsheet(cells.ToList()));
 		}
 
 		return records;
 	}
 
-	public async Task<IDictionary<DateOnly, Record>> GetRecordsSince(DateOnly latest)
+	public async Task<IDictionary<DateOnly, Record>> GetRecordsSince(DateOnly date)
 	{
 		var records = await GetRecords();
 
-		return records.Where(r => r.Key > latest)
+		return records.Where(r => r.Key > date)
 			.ToDictionary(r => r.Key, r => r.Value);
 	}
+
+	public static Record FromSpreadsheet(IList<IElement> tchdCells)
+	{
+		if (!DateOnly.TryParse(tchdCells[0].TextContent, out var date))
+			throw new ArgumentException("Could not read date from cells", nameof(tchdCells));
+
+		return new Record
+		{
+			Date = date,
+			TestedToday = ushort.TryParse(Cleanup(tchdCells[2]), out var testedToday)
+				? testedToday
+				: null,
+
+			PositiveToday = ushort.TryParse(Cleanup(tchdCells[3]), out var positiveToday)
+				? positiveToday
+				: null,
+
+			PositiveTotal = ushort.TryParse(Cleanup(tchdCells[4]), out var positiveTotal)
+				? positiveTotal
+				: null,
+
+			ActiveCases = ushort.TryParse(Cleanup(tchdCells[6]), out var activeCases)
+				? activeCases
+				: null,
+
+			Hospitalized = ushort.TryParse(Cleanup(tchdCells[7]), out var hospitalized)
+				? hospitalized
+				: null,
+
+			Deceased = ushort.TryParse(Cleanup(tchdCells[8]), out var deceased)
+				? deceased
+				: null,
+
+			PartiallyVaccinated = uint.TryParse(Cleanup(tchdCells[9]), out var partiallyVaccinated)
+				? partiallyVaccinated
+				: null,
+
+			FullyVaccinated = uint.TryParse(Cleanup(tchdCells[10]), out var fullyVaccinated)
+				? fullyVaccinated
+				: null,
+
+			SelfPositiveToday = ushort.TryParse(Cleanup(tchdCells[11]), out var selfPositiveToday)
+				? selfPositiveToday
+				: null,
+
+			SelfPositiveTotal = ushort.TryParse(Cleanup(tchdCells[12]), out var selfPositiveTotal)
+				? selfPositiveTotal
+				: null
+		};
+	}
+
+	private static ReadOnlySpan<char> Cleanup(INode cell)
+		=> cell.TextContent.Replace(",", "");
 }

@@ -14,8 +14,8 @@ public sealed class RunnerTests
 		twitter.GetLatestPostedDate(Arg.Any<string>()).Returns(DateOnly.Parse("6/30/2021"));
 
 		var hd = Substitute.For<IHealthDepartment>();
-		var yesterday = new Record(Stub.Row(new[] { "06/30/2021", "", "", "1", "", "", "2"  }));
-		var today = new Record(Stub.Row(new[] { "07/01/2021", "", "", "256", "", "", "1024" }));
+		var yesterday = TCHD.FromSpreadsheet(Stub.Row(new[] { "06/30/2021", "", "", "1", "", "", "2"  }));
+		var today = TCHD.FromSpreadsheet(Stub.Row(new[] { "07/01/2021", "", "", "256", "", "", "1024" }));
 		hd.GetRecords().Returns(new Dictionary<DateOnly, Record>
 		{
 			{ DateOnly.Parse("06/30/2021"), yesterday },
@@ -47,7 +47,7 @@ public sealed class RunnerTests
 		twitter.GetLatestPostedDate(Arg.Any<string>()).Returns(DateOnly.Parse("6/30/2021"));
 
 		var hd = Substitute.For<IHealthDepartment>();
-		var today = new Record(Stub.Row(new[] { "07/01/2021" }));
+		var today = TCHD.FromSpreadsheet(Stub.Row(new[] { "07/01/2021" }));
 		hd.GetRecords().Returns(new Dictionary<DateOnly, Record>
 		{
 			{ DateOnly.Parse("07/01/2021"), today }
