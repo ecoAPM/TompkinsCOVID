@@ -3,6 +3,8 @@ name: Run
 on:
   schedule:
   - cron: "* * * * *"
+  push:
+    branches: [ main ]
 
 jobs:
   Run:
