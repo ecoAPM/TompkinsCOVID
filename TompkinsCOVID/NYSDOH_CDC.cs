@@ -27,21 +27,21 @@ public sealed class NYSDOH_CDC : IHealthDepartment
 		var fatalityData = Parse(await all["fatalities"], "as_of_date");
 		var vaccinationData = Parse(await all["vaccinations"], "date");
 
-		return tests.ToDictionary(t => t.Key, t => ToRecord(t.Key, t.Value, hospitalizationData, fatalityData, vaccinationData))
+		return tests
 			.Where(t => t.Key > date)
-			.ToDictionary(t => t.Key, t => t.Value);
+			.ToDictionary(t => t.Key, t => ToRecord(t.Key, t.Value, hospitalizationData, fatalityData, vaccinationData));
 	}
 
 	private static Record ToRecord(DateOnly date, JsonElement testData, IDictionary<DateOnly, JsonElement> hospitalizationData, IDictionary<DateOnly, JsonElement> fatalityData, IDictionary<DateOnly, JsonElement> vaccinationData)
 	{
 		if (!hospitalizationData.TryGetValue(date, out var hospitalizations))
-			hospitalizations = hospitalizationData.First(h => h.Key <= date).Value;
+			hospitalizations = hospitalizationData.FirstOrDefault(h => h.Key <= date).Value;
 
 		if (!fatalityData.TryGetValue(date, out var fatalities))
-			fatalities = fatalityData.First(h => h.Key <= date).Value;
+			fatalities = fatalityData.FirstOrDefault(h => h.Key <= date).Value;
 
 		if (!vaccinationData.TryGetValue(date, out var vaccinations))
-			vaccinations = vaccinationData.First(h => h.Key <= date).Value;
+			vaccinations = vaccinationData.FirstOrDefault(h => h.Key <= date).Value;
 
 		return CreateRecord(testData, hospitalizations, fatalities, vaccinations);
 	}
