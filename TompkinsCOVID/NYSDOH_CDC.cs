@@ -26,9 +26,10 @@ public sealed class NYSDOH_CDC : IHealthDepartment
 		var hospitalizationData = Parse(await all["hospitalizations"], "as_of_date");
 		var fatalityData = Parse(await all["fatalities"], "as_of_date");
 		var vaccinationData = Parse(await all["vaccinations"], "date");
+		var earliestDate = vaccinationData.Min(v => v.Key);
 
 		return tests
-			.Where(t => t.Key > date)
+			.Where(t => t.Key > date && t.Key >= earliestDate)
 			.ToDictionary(t => t.Key, t => ToRecord(t.Key, t.Value, hospitalizationData, fatalityData, vaccinationData));
 	}
 
