@@ -9,13 +9,13 @@ namespace TompkinsCOVID.Tests;
 public sealed class TwitterTests
 {
 	[Fact]
-	public async Task CanGetMostRecentTweetDate()
+	public async Task CanGetMostRecentPostDate()
 	{
 		//arrange
-		var tweet = Substitute.For<ITweet>();
-		tweet.Text.Returns("07/01/2021\ntest data");
+		var post = Substitute.For<ITweet>();
+		post.Text.Returns("07/01/2021\ntest data");
 		var client = Substitute.For<ITwitterClient>();
-		client.Timelines.GetUserTimelineAsync(Arg.Any<IGetUserTimelineParameters>()).Returns(new[] { tweet });
+		client.Timelines.GetUserTimelineAsync(Arg.Any<IGetUserTimelineParameters>()).Returns(new[] { post });
 		var twitter = new Twitter(client);
 
 		//act
@@ -27,7 +27,7 @@ public sealed class TwitterTests
 	}
 
 	[Fact]
-	public async Task TweetSendsInfoToClient()
+	public async Task PostSendsInfoToClient()
 	{
 		//arrange
 		var client = Substitute.For<ITwitterClient>();
@@ -35,7 +35,7 @@ public sealed class TwitterTests
 		var record = new Record { Date = DateOnly.Parse("07/01/2021") };
 
 		//act
-		await twitter.Tweet(record);
+		await twitter.Post(record);
 
 		//assert
 		await client.Received().Tweets.PublishTweetAsync(Arg.Any<string>());

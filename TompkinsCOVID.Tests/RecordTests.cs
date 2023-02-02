@@ -5,7 +5,7 @@ namespace TompkinsCOVID.Tests;
 public sealed class RecordTests
 {
 	[Fact]
-	public async Task CanOutputAsTweet()
+	public async Task CanOutputAsPost()
 	{
 		//arrange
 		var record = new Record
@@ -24,11 +24,11 @@ public sealed class RecordTests
 		};
 
 		//act
-		var tweet = record.ToString();
+		var post = record.ToString();
 
 		//assert
-		Assert.True(tweet.Length < 280);
-		var expected = await File.ReadAllTextAsync("tweet.txt");
-		Assert.Equal(expected, tweet);
+		Assert.True(post.Length < 280);
+		var expected = await File.ReadAllTextAsync("post.txt");
+		Assert.Equal(expected, post);
 	}
 }

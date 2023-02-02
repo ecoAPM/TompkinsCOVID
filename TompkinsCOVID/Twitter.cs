@@ -3,7 +3,7 @@ using Tweetinvi.Parameters;
 
 namespace TompkinsCOVID;
 
-public sealed class Twitter : ITwitter
+public sealed class Twitter : ISocialMediaManager
 {
 	private readonly ITwitterClient _client;
 
@@ -27,6 +27,6 @@ public sealed class Twitter : ITwitter
 		return dates.Any() ? dates.Max() : null;
 	}
 
-	public async Task Tweet(Record record)
+	public async Task Post(Record record)
 		=> await _client.Tweets.PublishTweetAsync(record.ToString());
 }

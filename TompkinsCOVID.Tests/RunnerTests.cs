@@ -7,10 +7,10 @@ namespace TompkinsCOVID.Tests;
 public sealed class RunnerTests
 {
 	[Fact]
-	public async Task TweetsNewRecords()
+	public async Task PostsNewRecords()
 	{
 		//arrange
-		var twitter = Substitute.For<ITwitter>();
+		var twitter = Substitute.For<ISocialMediaManager>();
 		twitter.GetLatestPostedDate(Arg.Any<string>()).Returns(DateOnly.Parse("6/30/2021"));
 
 		var hd = Substitute.For<IHealthDepartment>();
@@ -36,14 +36,14 @@ public sealed class RunnerTests
 		await runner.Run();
 
 		//assert
-		await twitter.Received(1).Tweet(Arg.Any<Record>());
+		await twitter.Received(1).Post(Arg.Any<Record>());
 	}
 
 	[Fact]
-	public async Task DoesNotTweetIncomplete()
+	public async Task DoesNotPostIncomplete()
 	{
 		//arrange
-		var twitter = Substitute.For<ITwitter>();
+		var twitter = Substitute.For<ISocialMediaManager>();
 		twitter.GetLatestPostedDate(Arg.Any<string>()).Returns(DateOnly.Parse("6/30/2021"));
 
 		var hd = Substitute.For<IHealthDepartment>();
@@ -67,6 +67,6 @@ public sealed class RunnerTests
 		await runner.Run();
 
 		//assert
-		await twitter.DidNotReceive().Tweet(Arg.Any<Record>());
+		await twitter.DidNotReceive().Post(Arg.Any<Record>());
 	}
 }

@@ -1,7 +1,7 @@
 namespace TompkinsCOVID;
 
-public interface ITwitter
+public interface ISocialMediaManager
 {
 	Task<DateOnly?> GetLatestPostedDate(string username);
-	Task Tweet(Record record);
+	Task Post(Record record);
 }

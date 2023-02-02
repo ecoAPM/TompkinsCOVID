@@ -4,15 +4,15 @@ namespace TompkinsCOVID;
 
 public sealed class Runner
 {
-	private readonly ITwitter _twitter;
+	private readonly ISocialMediaManager _socialMediaManager;
 	private readonly IHealthDepartment _healthDept;
 	private readonly Action<string> _log;
 	private readonly string _username;
 	private readonly TimeSpan _wait;
 
-	public Runner(ITwitter twitter, IHealthDepartment healthDept, Action<string> log, IConfiguration config)
+	public Runner(ISocialMediaManager socialMediaManager, IHealthDepartment healthDept, Action<string> log, IConfiguration config)
 	{
-		_twitter = twitter;
+		_socialMediaManager = socialMediaManager;
 		_healthDept = healthDept;
 		_log = log;
 		_username = config["username"] ?? string.Empty;
@@ -24,7 +24,7 @@ public sealed class Runner
 		_log("");
 		var latest = DateOnly.TryParse(arg, out var argDate)
 			? argDate
-			: await _twitter.GetLatestPostedDate(_username);
+			: await _socialMediaManager.GetLatestPostedDate(_username);
 		_log($"Last posted: {latest?.ToShortDateString() ?? "[never]"}");
 		var recordDate = latest?.AddDays(-ActiveCaseCalculator.ActiveDays * 2)
 			?? DateOnly.FromDateTime(DateTime.UnixEpoch);
@@ -33,22 +33,22 @@ public sealed class Runner
 		var records = await _healthDept.GetRecordsSince(recordDate);
 		_log($"{records.Count} records found, for {records.LastOrDefault().Key.ToShortDateString()} through {records.FirstOrDefault().Key.ToShortDateString()}");
 
-		var toTweet = records
-			.Where(r => ShouldTweet(r.Value, latest))
+		var toPost = records
+			.Where(r => ShouldPost(r.Value, latest))
 			.OrderBy(r => r.Key)
 			.ToArray();
 
-		if (!toTweet.Any())
+		if (!toPost.Any())
 		{
-			_log("Nothing to tweet!");
+			_log("Nothing to post!");
 		}
 
-		foreach (var record in toTweet)
+		foreach (var record in toPost)
 		{
 			record.Value.ActiveCases ??= records.CalculateActiveCases(record.Key);
 
-			_log($"\nTweeting:\n{record.Value}\n");
-			await _twitter.Tweet(record.Value);
+			_log($"\nPosting:\n{record.Value}\n");
+			await _socialMediaManager.Post(record.Value);
 			await Task.Delay(_wait);
 		}
 
@@ -56,6 +56,6 @@ public sealed class Runner
 		_log("Done!");
 	}
 
-	private static bool ShouldTweet(Record r, DateOnly? latest)
+	private static bool ShouldPost(Record r, DateOnly? latest)
 		=> r.Date > latest && r.PositiveToday is not null;
 }
