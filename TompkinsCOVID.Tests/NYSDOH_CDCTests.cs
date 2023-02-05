@@ -4,9 +4,9 @@ using Xunit;
 
 namespace TompkinsCOVID.Tests;
 
-public class NYSDOH_CDCTests
+public sealed class NYSDOH_CDCTests
 {
-	private static byte[] configData = @"
+	private static readonly byte[] configData = @"
 	{
 		""api"": {
 			""tests"": ""http://localhost/tests"",
@@ -110,7 +110,7 @@ public class NYSDOH_CDCTests
 
 			if (url.LocalPath.Contains("hospitalizations"))
 				return hospitalizationData;
-		
+
 			if (url.LocalPath.Contains("fatalities"))
 				return fatalityData;
 

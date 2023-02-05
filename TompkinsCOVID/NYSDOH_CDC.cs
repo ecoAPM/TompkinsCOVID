@@ -44,7 +44,19 @@ public sealed class NYSDOH_CDC : IHealthDepartment
 		if (!vaccinationData.TryGetValue(date, out var vaccinations))
 			vaccinations = vaccinationData.FirstOrDefault(h => h.Key <= date).Value;
 
-		return CreateRecord(testData, hospitalizations, fatalities, vaccinations);
+		return new Record
+		{
+			Date = DateOnly.FromDateTime(testData.GetProperty("test_date").GetDateTime()).AddDays(1),
+			PositiveToday = testData.GetUInt16("new_positives"),
+			TestedToday = testData.GetUInt16("total_number_of_tests"),
+			PositiveTotal = testData.GetUInt16("cumulative_number_of_positives"),
+			Hospitalized = hospitalizations.GetUInt16("patients_currently"),
+			Deceased = fatalities.GetUInt16("total_by_place_of_fatality"),
+			PartiallyVaccinated = vaccinations.GetDecimal("administered_dose1_pop_pct"),
+			FullyVaccinated = vaccinations.GetDecimal("series_complete_pop_pct"),
+			VaxxedAndBoosted = vaccinations.GetDecimal("booster_doses_vax_pct"),
+			BivalentBoosted = vaccinations.GetDecimal("bivalent_booster_5plus_pop_pct")
+		};
 	}
 
 	private static IDictionary<DateOnly, JsonElement> Parse(JsonElement data, string dateField)
@@ -58,46 +70,4 @@ public sealed class NYSDOH_CDC : IHealthDepartment
 		var json = await JsonDocument.ParseAsync(stream);
 		return json.RootElement;
 	}
-
-	private static Record CreateRecord(JsonElement testData, JsonElement hospitalizations, JsonElement fatalities, JsonElement vaccinations)
-		=> new()
-		{
-			Date = DateOnly.FromDateTime(testData.GetProperty("test_date").GetDateTime()).AddDays(1),
-
-			PositiveToday = ushort.TryParse(testData.GetProperty("new_positives").GetString(), out var positiveToday)
-				? positiveToday
-				: null,
-
-			TestedToday = ushort.TryParse(testData.GetProperty("total_number_of_tests").GetString(), out var testedToday)
-				? testedToday
-				: null,
-
-			PositiveTotal = ushort.TryParse(testData.GetProperty("cumulative_number_of_positives").GetString(), out var positiveTotal)
-				? positiveTotal
-				: null,
-
-			Hospitalized = ushort.TryParse(hospitalizations.GetProperty("patients_currently").GetString(), out var hospitalized)
-				? hospitalized
-				: null,
-
-			Deceased = ushort.TryParse(fatalities.GetProperty("total_by_place_of_fatality").GetString(), out var deceased)
-				? deceased
-				: null,
-
-			PartiallyVaccinated = decimal.TryParse(vaccinations.GetProperty("administered_dose1_pop_pct").GetString(), out var partiallyVaccinated)
-				? partiallyVaccinated
-				: null,
-
-			FullyVaccinated = decimal.TryParse(vaccinations.GetProperty("series_complete_pop_pct").GetString(), out var fullyVaccinated)
-				? fullyVaccinated
-				: null,
-
-			VaxxedAndBoosted = decimal.TryParse(vaccinations.GetProperty("booster_doses_vax_pct").GetString(), out var vaxxedAndBoosted)
-				? vaxxedAndBoosted
-				: null,
-
-			BivalentBoosted = decimal.TryParse(vaccinations.GetProperty("bivalent_booster_5plus_pop_pct").GetString(), out var bivalentBoosted)
-				? bivalentBoosted
-				: null
-		};
 }
