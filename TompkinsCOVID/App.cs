@@ -2,7 +2,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace TompkinsCOVID;
 
-public sealed class Runner
+public sealed class App
 {
 	private readonly ISocialMediaManager _socialMediaManager;
 	private readonly IHealthDepartment _healthDept;
@@ -10,7 +10,7 @@ public sealed class Runner
 	private readonly string _username;
 	private readonly TimeSpan _wait;
 
-	public Runner(ISocialMediaManager socialMediaManager, IHealthDepartment healthDept, Action<string> log, IConfiguration config)
+	public App(ISocialMediaManager socialMediaManager, IHealthDepartment healthDept, Action<string> log, IConfiguration config)
 	{
 		_socialMediaManager = socialMediaManager;
 		_healthDept = healthDept;

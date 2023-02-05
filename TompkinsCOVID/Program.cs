@@ -1,3 +1,3 @@
 using TompkinsCOVID;
 
-await Factory.Runner().Run(args.Any() ? args[0] : null);
+await Factory.App().Run(args.Any() ? args[0] : null);

@@ -4,7 +4,7 @@ using Xunit;
 
 namespace TompkinsCOVID.Tests;
 
-public sealed class RunnerTests
+public sealed class AppTests
 {
 	[Fact]
 	public async Task PostsNewRecords()
@@ -30,10 +30,10 @@ public sealed class RunnerTests
 		};
 		var config = new ConfigurationBuilder().AddInMemoryCollection(settings).Build();
 
-		var runner = new Runner(twitter, hd, _ => { }, config);
+		var app = new App(twitter, hd, _ => { }, config);
 
 		//act
-		await runner.Run();
+		await app.Run();
 
 		//assert
 		await twitter.Received(1).Post(Arg.Any<Record>());
@@ -61,10 +61,10 @@ public sealed class RunnerTests
 		};
 		var config = new ConfigurationBuilder().AddInMemoryCollection(settings).Build();
 
-		var runner = new Runner(twitter, hd, _ => { }, config);
+		var app = new App(twitter, hd, _ => { }, config);
 
 		//act
-		await runner.Run();
+		await app.Run();
 
 		//assert
 		await twitter.DidNotReceive().Post(Arg.Any<Record>());

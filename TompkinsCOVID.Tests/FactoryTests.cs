@@ -5,12 +5,12 @@ namespace TompkinsCOVID.Tests;
 public sealed class FactoryTests
 {
 	[Fact]
-	public void CanCreateRunner()
+	public void CanCreateApp()
 	{
 		//arrange/act
-		var runner = Factory.Runner();
+		var app = Factory.App();
 
 		//assert
-		Assert.IsType<Runner>(runner);
+		Assert.IsType<App>(app);
 	}
 }

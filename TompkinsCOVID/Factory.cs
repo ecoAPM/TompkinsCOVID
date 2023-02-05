@@ -5,7 +5,7 @@ namespace TompkinsCOVID;
 
 public static class Factory
 {
-	public static Runner Runner()
+	public static App App()
 	{
 		var consumerKey = Environment.GetEnvironmentVariable("ConsumerKey");
 		var consumerSecret = Environment.GetEnvironmentVariable("ConsumerSecret");
@@ -18,6 +18,6 @@ public static class Factory
 		var http = new HttpClient();
 		var healthDept = new NYSDOH_CDC(http, config.GetSection("api"));
 
-		return new Runner(twitter, healthDept, Console.WriteLine, config);
+		return new App(twitter, healthDept, Console.WriteLine, config);
 	}
 }
