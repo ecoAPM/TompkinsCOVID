@@ -34,5 +34,5 @@ public record Record
             + $"{FullyVaccinated?.ToString("N1") ?? "[unknown]"}% fully vaccinated" + Environment.NewLine
             + $"{PartiallyVaccinated?.ToString("N1") ?? "[unknown]"}% partially vaccinated" + Environment.NewLine
             + Environment.NewLine
-            + "#twithaca";
+            + "#ithaca";
 }

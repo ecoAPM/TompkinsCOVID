@@ -14,4 +14,4 @@
 34.5% fully vaccinated
 45.6% partially vaccinated
 
-#twithaca
+#ithaca
