@@ -4,7 +4,7 @@ on:
   schedule:
   - cron: "* * * * *"
   push:
-    branches: [ main ]
+    branches: [ main, mastodon, twitter ]
 
 jobs:
   Run:
@@ -24,7 +24,7 @@ jobs:
       env:
         ConsumerKey: ${{secrets.ConsumerKey}}
         ConsumerSecret: ${{secrets.ConsumerSecret}}
-        ConsumerToken: ${{secrets.ConsumerToken}}
         AccessKey: ${{secrets.AccessKey}}
         AccessSecret: ${{secrets.AccessSecret}}
+        AccessToken: ${{secrets.AccessToken}}
 
