@@ -11,7 +11,7 @@ public sealed class AppTests
 	{
 		//arrange
 		var twitter = Substitute.For<ISocialMediaManager>();
-		twitter.GetLatestPostedDate(Arg.Any<string>()).Returns(DateOnly.Parse("6/30/2021"));
+		twitter.GetLatestPostedDate().Returns(DateOnly.Parse("6/30/2021"));
 
 		var hd = Substitute.For<IHealthDepartment>();
 		var yesterday = new Record { Date = DateOnly.Parse("06/30/2021"), PositiveToday = 1 };
@@ -24,8 +24,6 @@ public sealed class AppTests
 
 		var settings = new Dictionary<string, string?>
 		{
-			{ "url", "http://localhost" },
-			{ "username", "test" },
 			{ "wait", "0" }
 		};
 		var config = new ConfigurationBuilder().AddInMemoryCollection(settings).Build();
@@ -44,7 +42,7 @@ public sealed class AppTests
 	{
 		//arrange
 		var twitter = Substitute.For<ISocialMediaManager>();
-		twitter.GetLatestPostedDate(Arg.Any<string>()).Returns(DateOnly.Parse("6/30/2021"));
+		twitter.GetLatestPostedDate().Returns(DateOnly.Parse("6/30/2021"));
 
 		var hd = Substitute.For<IHealthDepartment>();
 		var today = new Record { Date = DateOnly.Parse("07/01/2021") };
@@ -55,8 +53,6 @@ public sealed class AppTests
 
 		var settings = new Dictionary<string, string?>
 		{
-			{ "url", "http://localhost" },
-			{ "username", "test" },
 			{ "wait", "0" }
 		};
 		var config = new ConfigurationBuilder().AddInMemoryCollection(settings).Build();

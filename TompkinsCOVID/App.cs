@@ -7,7 +7,6 @@ public sealed class App
 	private readonly ISocialMediaManager _socialMediaManager;
 	private readonly IHealthDepartment _healthDept;
 	private readonly Action<string> _log;
-	private readonly string _username;
 	private readonly TimeSpan _wait;
 
 	public App(ISocialMediaManager socialMediaManager, IHealthDepartment healthDept, Action<string> log, IConfiguration config)
@@ -15,7 +14,6 @@ public sealed class App
 		_socialMediaManager = socialMediaManager;
 		_healthDept = healthDept;
 		_log = log;
-		_username = config["username"] ?? string.Empty;
 		_wait = TimeSpan.FromSeconds(double.Parse(config["wait"] ?? string.Empty));
 	}
 
@@ -24,7 +22,7 @@ public sealed class App
 		_log("");
 		var latest = DateOnly.TryParse(arg, out var argDate)
 			? argDate
-			: await _socialMediaManager.GetLatestPostedDate(_username);
+			: await _socialMediaManager.GetLatestPostedDate();
 		_log($"Last posted: {latest?.ToShortDateString() ?? "[never]"}");
 		var recordDate = latest?.AddDays(-ActiveCaseCalculator.ActiveDays * 2)
 			?? DateOnly.FromDateTime(DateTime.UnixEpoch);

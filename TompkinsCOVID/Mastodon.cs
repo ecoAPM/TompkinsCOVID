@@ -17,7 +17,7 @@ public sealed class Mastodon : ISocialMediaManager
 		_accessToken = accessToken;
 	}
 
-	public async Task<DateOnly?> GetLatestPostedDate(string username)
+	public async Task<DateOnly?> GetLatestPostedDate()
 	{
 		var request = new HttpRequestMessage(HttpMethod.Get, $"https://{_config["instance"]}/api/v1/accounts/{_config["id"]}/statuses")
 		{

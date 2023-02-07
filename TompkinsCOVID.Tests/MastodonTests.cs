@@ -26,7 +26,7 @@ public sealed class MastodonTests
 		var client = new Mastodon(http, config, string.Empty);
 
 		//act
-		var date = await client.GetLatestPostedDate(string.Empty);
+		var date = await client.GetLatestPostedDate();
 
 		//assert
 		Assert.Equal(new DateOnly(2023, 1, 2), date);
