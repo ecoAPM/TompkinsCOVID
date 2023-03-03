@@ -10,7 +10,7 @@
 
 A community service project to automatically tweet daily COVID positive cases and vaccination statistics in Tompkins County, NY.
 
-Follow [@TompkinsNYCOVID on Twitter](https://twitter.com/TompkinsNYCOVID) for updates.
+Follow [@TompkinsNYCOVID on Mastodon](https://mstdn.science/@TompkinsNYCOVID) or [@TompkinsNYCOVID on Twitter](https://twitter.com/TompkinsNYCOVID) for updates.
 
 ## Requirements
 
@@ -19,7 +19,7 @@ Follow [@TompkinsNYCOVID on Twitter](https://twitter.com/TompkinsNYCOVID) for up
   - `ConsumerKey`
   - `ConsumerSecret`
   - `AccessKey`
-  - `AccessSecret`
+  - `AccessSecret` 
 
 ## Build from source
 
