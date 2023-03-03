@@ -15,11 +15,7 @@ Follow [@TompkinsNYCOVID on Mastodon](https://mstdn.science/@TompkinsNYCOVID) or
 ## Requirements
 
 - .NET SDK 7
-- Twitter API keys set to the following environment variable names:
-  - `ConsumerKey`
-  - `ConsumerSecret`
-  - `AccessKey`
-  - `AccessSecret` 
+- Mastodon API key set to the `AccessToken` environment variable
 
 ## Build from source
 
