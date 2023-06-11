@@ -8,7 +8,7 @@
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=ecoAPM_TompkinsCOVID&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=ecoAPM_TompkinsCOVID)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ecoAPM_TompkinsCOVID&metric=security_rating)](https://sonarcloud.io/dashboard?id=ecoAPM_TompkinsCOVID)
 
-A community service project to automatically tweet daily COVID positive cases and vaccination statistics in Tompkins County, NY.
+A community service project to automatically tweet daily COVID statistics in Tompkins County, NY.
 
 Follow [@TompkinsNYCOVID on Mastodon](https://mstdn.science/@TompkinsNYCOVID) or [@TompkinsNYCOVID on Twitter](https://twitter.com/TompkinsNYCOVID) for updates.
 

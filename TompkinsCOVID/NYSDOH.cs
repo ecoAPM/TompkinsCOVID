@@ -3,12 +3,12 @@ using Microsoft.Extensions.Configuration;
 
 namespace TompkinsCOVID;
 
-public sealed class NYSDOH_CDC : IHealthDepartment
+public sealed class NYSDOH : IHealthDepartment
 {
 	private readonly HttpClient _http;
 	private readonly IConfigurationSection _config;
 
-	public NYSDOH_CDC(HttpClient http, IConfigurationSection config)
+	public NYSDOH(HttpClient http, IConfigurationSection config)
 	{
 		_http = http;
 		_config = config;
@@ -25,24 +25,19 @@ public sealed class NYSDOH_CDC : IHealthDepartment
 		var tests = Parse(await all["tests"], "test_date");
 		var hospitalizationData = Parse(await all["hospitalizations"], "as_of_date");
 		var fatalityData = Parse(await all["fatalities"], "as_of_date");
-		var vaccinationData = Parse(await all["vaccinations"], "date");
-		var earliestDate = vaccinationData.Min(v => v.Key);
 
 		return tests
-			.Where(t => t.Key > date && t.Key >= earliestDate)
-			.ToDictionary(t => t.Key, t => ToRecord(t.Key, t.Value, hospitalizationData, fatalityData, vaccinationData));
+			.Where(t => t.Key > date && t.Key >= tests.Min(t => t.Key) && t.Key >= hospitalizationData.Min(t => t.Key) && t.Key >= fatalityData.Min(t => t.Key))
+			.ToDictionary(t => t.Key, t => ToRecord(t.Key, t.Value, hospitalizationData, fatalityData));
 	}
 
-	private static Record ToRecord(DateOnly date, JsonElement testData, IDictionary<DateOnly, JsonElement> hospitalizationData, IDictionary<DateOnly, JsonElement> fatalityData, IDictionary<DateOnly, JsonElement> vaccinationData)
+	private static Record ToRecord(DateOnly date, JsonElement testData, IDictionary<DateOnly, JsonElement> hospitalizationData, IDictionary<DateOnly, JsonElement> fatalityData)
 	{
 		if (!hospitalizationData.TryGetValue(date, out var hospitalizations))
 			hospitalizations = hospitalizationData.FirstOrDefault(h => h.Key <= date).Value;
 
 		if (!fatalityData.TryGetValue(date, out var fatalities))
 			fatalities = fatalityData.FirstOrDefault(h => h.Key <= date).Value;
-
-		if (!vaccinationData.TryGetValue(date, out var vaccinations))
-			vaccinations = vaccinationData.FirstOrDefault(h => h.Key <= date).Value;
 
 		return new Record
 		{
@@ -51,11 +46,7 @@ public sealed class NYSDOH_CDC : IHealthDepartment
 			TestedToday = testData.GetUInt16("total_number_of_tests"),
 			PositiveTotal = testData.GetUInt16("cumulative_number_of_positives"),
 			Hospitalized = hospitalizations.GetUInt16("patients_currently"),
-			Deceased = fatalities.GetUInt16("total_by_place_of_fatality"),
-			PartiallyVaccinated = vaccinations.GetDecimal("administered_dose1_pop_pct"),
-			FullyVaccinated = vaccinations.GetDecimal("series_complete_pop_pct"),
-			VaxxedAndBoosted = vaccinations.GetDecimal("booster_doses_vax_pct"),
-			BivalentBoosted = vaccinations.GetDecimal("bivalent_booster_5plus_pop_pct")
+			Deceased = fatalities.GetUInt16("total_by_place_of_fatality")
 		};
 	}
 

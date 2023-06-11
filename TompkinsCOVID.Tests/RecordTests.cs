@@ -16,11 +16,7 @@ public sealed class RecordTests
 			TestedToday = 1234,
 			PositiveTotal = 12345,
 			Hospitalized = 23,
-			Deceased = 34,
-			BivalentBoosted = 12.3m,
-			VaxxedAndBoosted = 23.4m,
-			FullyVaccinated = 34.5m,
-			PartiallyVaccinated = 45.6m
+			Deceased = 34
 		};
 
 		//act

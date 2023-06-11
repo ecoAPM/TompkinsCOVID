@@ -4,15 +4,14 @@ using Xunit;
 
 namespace TompkinsCOVID.Tests;
 
-public sealed class NYSDOH_CDCTests
+public sealed class NYSDOHTests
 {
 	private static readonly byte[] configData = @"
 	{
 		""api"": {
 			""tests"": ""http://localhost/tests"",
 			""hospitalizations"": ""http://localhost/hospitalizations"",
-			""fatalities"": ""http://localhost/fatalities"",
-			""vaccinations"": ""http://localhost/vaccinations""
+			""fatalities"": ""http://localhost/fatalities""
 		}
 	}"u8.ToArray();
 
@@ -27,7 +26,7 @@ public sealed class NYSDOH_CDCTests
 		//arrange
 		var handler = new MockHttp();
 		var client = new HttpClient(handler);
-		var hd = new NYSDOH_CDC(client, Config);
+		var hd = new NYSDOH(client, Config);
 
 		//act
 		var records = await hd.GetRecords();
@@ -43,7 +42,7 @@ public sealed class NYSDOH_CDCTests
 		//arrange
 		var handler = new MockHttp();
 		var client = new HttpClient(handler);
-		var hd = new NYSDOH_CDC(client, Config);
+		var hd = new NYSDOH(client, Config);
 
 		//act
 		var records = await hd.GetRecordsSince(DateOnly.Parse("07/01/2021"));
@@ -83,16 +82,6 @@ public sealed class NYSDOH_CDCTests
 			}
 		]";
 
-		const string vaccinationData = @"[
-			{
-				""date"": ""2021-07-01"",
-				""administered_dose1_pop_pct"": """",
-				""series_complete_pop_pct"": """",
-				""booster_doses_vax_pct"": """",
-				""bivalent_booster_5plus_pop_pct"": """"
-			}
-		]";
-
 		protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
 		{
 			var data = GetData(request.RequestUri!);
@@ -113,9 +102,6 @@ public sealed class NYSDOH_CDCTests
 
 			if (url.LocalPath.Contains("fatalities"))
 				return fatalityData;
-
-			if (url.LocalPath.Contains("vaccinations"))
-				return vaccinationData;
 
 			return null!;
 		}

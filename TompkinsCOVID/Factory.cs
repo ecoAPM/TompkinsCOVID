@@ -12,7 +12,7 @@ public static class Factory
 		var accessToken = Environment.GetEnvironmentVariable("AccessToken");
 		var mastodon = new Mastodon(http, config.GetSection("mastodon"), accessToken);
 
-		var healthDept = new NYSDOH_CDC(http, config.GetSection("api"));
+		var healthDept = new NYSDOH(http, config.GetSection("api"));
 
 		return new App(mastodon, healthDept, Console.WriteLine, config);
 	}
